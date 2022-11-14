@@ -197,3 +197,29 @@ class TestAccountService(TestCase):
 
         self.assertEqual(updated_account["name"], expectedNewName)
         
+    # Delete an account
+    def test_delete_account(self):
+        """It should delete an existing Account"""
+        account = AccountFactory()
+        response = self.client.post(
+            BASE_URL,
+            json=account.serialize(),
+            content_type="application/json"
+        )
+
+        new_account = response.get_json()
+
+        delete_response = self.client.delete(f"{BASE_URL}/{new_account['id']}")
+
+        self.assertEqual(delete_response.status_code, status.HTTP_204_NO_CONTENT)
+
+        read_response = self.client.get(
+            f"{BASE_URL}/{new_account['id']}",
+            content_type="application/json")
+
+        self.assertEqual(read_response.status_code, status.HTTP_404_NOT_FOUND)
+        
+    def test_method_not_allowed(self):
+        """It should not allow an illegal method call"""
+        resp = self.client.delete(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
