@@ -172,5 +172,28 @@ class TestAccountService(TestCase):
 
         self.assertEqual(read_response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(read_accounts), 0)
-
     
+    # Update an account
+    def test_update_account(self):
+        """It should update an existing Account"""
+        account = AccountFactory()
+        response = self.client.post(
+            BASE_URL,
+            json=account.serialize(),
+            content_type="application/json"
+        )
+
+        expectedNewName = "Updated"
+        new_account = response.get_json()
+        new_account["name"] = expectedNewName
+        update_response = self.client.put(
+            f"{BASE_URL}/{new_account['id']}",
+            json=new_account
+        )
+
+        self.assertEqual(update_response.status_code, status.HTTP_200_OK)
+
+        updated_account = update_response.get_json()
+
+        self.assertEqual(updated_account["name"], expectedNewName)
+        
