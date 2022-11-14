@@ -88,7 +88,6 @@ def read_accounts(id):
     This endpoint will read an Account based the id provided as a parameter
     """
     app.logger.info("Request to find an Account")
-    check_content_type("application/json")
     account = Account.find(id)
 
     if not account:
@@ -110,7 +109,8 @@ def update_accounts(id):
     This endpoint will update an Account based the provided account data
     """        
     app.logger.info("Request to update an Account with id: %s", id)
-    
+    check_content_type("application/json")
+
     account = Account.find(id)
 
     if not account:
