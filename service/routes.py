@@ -61,6 +61,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
+
 # ... place you code here to LIST accounts ...
 @app.route("/accounts", methods=["GET"])
 def list_accounts():
@@ -69,7 +70,7 @@ def list_accounts():
     This endpoint will return a list of all accounts
     """
     app.logger.info("Request list of Accounts")
-    
+
     accounts = Account.all()
     account_list = [account.serialize() for account in accounts]
 
@@ -99,15 +100,14 @@ def read_accounts(id):
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
 
-# ... place you code here to UPDATE an account ...
 
-# ... place you code here to READ an account ...
+# ... place you code here to UPDATE an account ...
 @app.route("/accounts/<int:id>", methods=["PUT"])
 def update_accounts(id):
     """
     Updates an Account
     This endpoint will update an Account based the provided account data
-    """        
+    """
     app.logger.info("Request to update an Account with id: %s", id)
     check_content_type("application/json")
 
@@ -125,15 +125,16 @@ def update_accounts(id):
 # DELETE AN ACCOUNT
 ######################################################################
 
+
 # ... place you code here to DELETE an account ...
 @app.route("/accounts/<int:id>", methods=["DELETE"])
 def delete_accounts(id):
     """
     Deletes an Account
     This endpoint will delete an Account with the specified id
-    """        
+    """
     app.logger.info("Request to delete an Account with id: %s", id)
-    
+
     account = Account.find(id)
 
     if account:
