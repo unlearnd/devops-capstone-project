@@ -128,12 +128,12 @@ class TestAccountService(TestCase):
     def test_read_an_account(self):
         """It should return an account based on id"""
         account = self._create_accounts(1)[0]
-        create_response = self.client.post(
+        self.client.post(
             BASE_URL,
             json=account.serialize(),
             content_type="application/json"
         )
-        
+
         read_response = self.client.get(
             f"{BASE_URL}/{account.id}",
             content_type="application/json"
@@ -141,7 +141,7 @@ class TestAccountService(TestCase):
 
         self.assertEqual(read_response.status_code, status.HTTP_200_OK)
         read_account = read_response.get_json()
-        self.assertEqual(read_account["name"],account.name)
+        self.assertEqual(read_account["name"], account.name)
 
     def test_read_not_found_account(self):
         """It should return a 404 for non-existent accounts"""
@@ -151,7 +151,7 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(read_response.status_code, status.HTTP_404_NOT_FOUND)
-    
+
     # List all accounts
     def test_list_account(self):
         """It should return a list of all accounts"""
@@ -167,12 +167,12 @@ class TestAccountService(TestCase):
     def test_empty_list_account(self):
         """It should return an empty list with a 200 OK response when no accounts exist"""
         read_response = self.client.get(BASE_URL)
-        
+
         read_accounts = read_response.get_json()
 
         self.assertEqual(read_response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(read_accounts), 0)
-    
+
     # Update an account
     def test_update_account(self):
         """It should update an existing Account"""
@@ -196,7 +196,7 @@ class TestAccountService(TestCase):
         updated_account = update_response.get_json()
 
         self.assertEqual(updated_account["name"], expectedNewName)
-        
+
     # Delete an account
     def test_delete_account(self):
         """It should delete an existing Account"""
@@ -218,7 +218,7 @@ class TestAccountService(TestCase):
             content_type="application/json")
 
         self.assertEqual(read_response.status_code, status.HTTP_404_NOT_FOUND)
-        
+
     def test_method_not_allowed(self):
         """It should not allow an illegal method call"""
         resp = self.client.delete(BASE_URL)
